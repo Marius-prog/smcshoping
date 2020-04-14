@@ -9,3 +9,18 @@ $(function() {
     });
 
 });
+
+
+function readURL(input, idNum){
+    if(input.files && input.files[0]){
+        let render = new FileReader();
+
+
+        render.onload = function(e){
+            $("#imgPreview"+idNum).attr("src", e.target.result).width(100).height(100);
+
+}
+        render.readAsDataURL(input.files[0]);
+}
+
+}
