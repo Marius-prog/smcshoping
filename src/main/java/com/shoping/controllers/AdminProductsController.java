@@ -60,7 +60,11 @@ public class AdminProductsController {
                       RedirectAttributes redirectAttributes,
                       Model model) throws IOException {        //added IOException handling automatic
 
+        List<Category> categories = categoryRepo.findAll();
+
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categories);
             return "admin/products/add";
         }
 
@@ -70,7 +74,7 @@ public class AdminProductsController {
         Path path = Paths.get("src/main/resources/static/media/" + filename);
 
 
-        if (filename.endsWith("jpg") || filename.endsWith("png")) {
+        if (filename.endsWith("jpeg") || filename.endsWith("png")) {
             fileOk = true;
         }
 
@@ -84,10 +88,11 @@ public class AdminProductsController {
         if (!fileOk) {
             redirectAttributes.addFlashAttribute("message", "Image must be a jpg or png");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            redirectAttributes.addFlashAttribute("product", product);
         } else if (productExists != null) {
             redirectAttributes.addFlashAttribute("message", "Product exists, choose another");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-
+            redirectAttributes.addFlashAttribute("product", product);
 
         } else {
             product.setSlug(slug);

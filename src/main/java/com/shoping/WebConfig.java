@@ -14,7 +14,9 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry){
-
+    public void addResourceHandlers(ResourceHandlerRegistry registry){
+        registry
+                .addResourceHandler("/media/**")
+                .addResourceLocations("file:/Users/macbookpro/Documents/Programming/smcshoping/src/main/resources/static/media");
     }
 }
