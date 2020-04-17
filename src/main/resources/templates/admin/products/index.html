@@ -24,17 +24,27 @@
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
+
+<!--            <tr th:each="product: ${products}">-->
+<!--                <td th:text="${product.name}"></td>-->
+<!--                <td><img style="width: 100px;" th:src="@{'/media/' + ${product.image}}"></td>-->
+<!--                <td th:text="${cats[__${product.category_id}__]}"></td>-->
+<!--                <td th:text="'$ ' + ${product.price}"></td>-->
+<!--                <td><a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a></td>-->
+<!--                <td><a th:href="@{'/admin/products/delete/' + ${product.id}}" class="confirmDeletion">Delete</a></td>-->
+<!--            </tr>-->
+
             <tr th:each="product: ${products}">
                 <td th:text="${product.name}"></td>
                 <td>
-                    <img style="width: 90px;" th:src="@{'/media/' + ${product.image}}">
+                    <img style="width: 100px;" th:src="@{'/media/' + ${product.image}}">
                 </td>
-                <td th:text="${product.category_id}"></td>
-                <td th:text="${product.price}"></td>
-
+                <td th:text="${cats[__${product.category_id}__]}"></td>
+                <td th:text="'$ ' + ${product.price}"></td>
                 <td><a th:href="@{'/admin/products/edit/' + ${product.id}}">Edit</a></td>
                 <td><a th:href="@{'/admin/products/delete/' + ${product.id}}" class="confirmDeletion">Delete</a></td>
             </tr>
+
         </table>
     </div>
 
