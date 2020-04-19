@@ -13,10 +13,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("home");
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry
-                .addResourceHandler("/media/**")     //may be **
-                .addResourceLocations("/Users/macbookpro/Documents/imagesOfShop");
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry){
+//        registry
+//                .addResourceHandler("/media/**")     //may be **
+//                .addResourceLocations("/Users/macbookpro/Documents/imagesOfShop");
+//    }
+
 }

@@ -1,14 +1,13 @@
 package com.shoping.controllers;
 
-
-import ch.qos.logback.core.joran.conditional.IfAction;
 import com.shoping.models.CategoryRepository;
 import com.shoping.models.ProductRepository;
 import com.shoping.models.data.Category;
-import com.shoping.models.data.Page;
 import com.shoping.models.data.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.HashMapChangeSet;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,9 +34,15 @@ public class AdminProductsController {
     private CategoryRepository categoryRepo;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, @RequestParam(value = "page", required = false) Integer p) {
 
-        List<Product> products = productRepo.findAll();
+        int perPage = 6;
+        int page = (p != null) ? p : 0;
+
+
+        Pageable pageable = PageRequest.of(page, perPage);
+
+        Page<Product> products = productRepo.findAll(pageable);
         List<Category> categories = categoryRepo.findAll();
 
         HashMap<Integer, String> cats = new HashMap<>();
@@ -47,6 +52,14 @@ public class AdminProductsController {
 
         model.addAttribute("products", products);
         model.addAttribute("cats", cats);
+
+        Long count = productRepo.count();
+        double pageCount = Math.ceil((double) count / (double) perPage);
+
+        model.addAttribute("pageCount", (int) pageCount);
+        model.addAttribute("perPage", perPage);
+        model.addAttribute("count", count);
+        model.addAttribute("page", page);
 
         return "admin/products/index";
     }
@@ -80,7 +93,6 @@ public class AdminProductsController {
         byte[] bytes = file.getBytes();
         String filename = file.getOriginalFilename();
         Path path = Paths.get("src/main/resources/static/media/" + filename);
-
 
 
         if (filename.endsWith("jpg") || filename.endsWith("png")) {
@@ -161,7 +173,7 @@ public class AdminProductsController {
         Path path = Paths.get("src/main/resources/static/media/" + filename);
 
         if (!file.isEmpty()) {
-            if (filename.endsWith("jpg") || filename.endsWith("png") ) {
+            if (filename.endsWith("jpg") || filename.endsWith("png")) {
                 fileOK = true;
             }
         } else {
