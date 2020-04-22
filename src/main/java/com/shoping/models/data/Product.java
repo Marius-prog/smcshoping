@@ -34,7 +34,7 @@ public class Product {
 
     @Pattern(regexp = "^[1-9][0-9]*", message = "Please choose a category")
     @Column(name = "category_id")
-    private String category_id;
+    private String categoryId;   //?????????? category_id
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
